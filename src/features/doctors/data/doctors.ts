@@ -1,34 +1,4 @@
-export interface Doctor {
-  id: string;
-  name: string;
-  specialty: string;
-  rating: number;
-  reviewsCount: number;
-  experience: number;
-  fee: number;
-  hospital: string;
-  location: string;
-  image: string;
-  about: string;
-  availableSlots: {
-    date: string;
-    slots: string[];
-  }[];
-  education: string[];
-  languages: string[];
-}
-
-export interface Appointment {
-  id: string;
-  doctorId: string;
-  doctorName: string;
-  doctorSpecialty: string;
-  date: string;
-  time: string;
-  status: 'upcoming' | 'completed' | 'cancelled';
-  patientName: string;
-  type: string;
-}
+import type { Doctor } from '@/features/doctors/types/doctor';
 
 export const DOCTORS: Doctor[] = [
   {
@@ -48,7 +18,7 @@ export const DOCTORS: Doctor[] = [
       { date: '2026-03-28', slots: ['11:00 AM', '01:30 PM', '03:00 PM'] }
     ],
     education: ['MD from Stanford University', 'Residency at Mayo Clinic'],
-    languages: ['English', 'Spanish']
+    languages: ['English', 'Spanish'],
   },
   {
     id: '2',
@@ -67,7 +37,7 @@ export const DOCTORS: Doctor[] = [
       { date: '2026-03-28', slots: ['09:00 AM', '10:00 AM', '02:00 PM'] }
     ],
     education: ['MD from Harvard Medical School', 'Internal Medicine Residency at Johns Hopkins'],
-    languages: ['English']
+    languages: ['English'],
   },
   {
     id: '3',
@@ -86,7 +56,7 @@ export const DOCTORS: Doctor[] = [
       { date: '2026-03-29', slots: ['09:00 AM', '10:30 AM', '02:30 PM'] }
     ],
     education: ['MD from Yale School of Medicine', 'Pediatrics Residency at CHOP'],
-    languages: ['English', 'Spanish', 'Portuguese']
+    languages: ['English', 'Spanish', 'Portuguese'],
   },
   {
     id: '4',
@@ -104,7 +74,7 @@ export const DOCTORS: Doctor[] = [
       { date: '2026-03-30', slots: ['08:30 AM', '10:00 AM', '01:30 PM', '03:30 PM'] }
     ],
     education: ['MD from Columbia University', 'Fellowship at Cleveland Clinic'],
-    languages: ['English', 'Mandarin']
+    languages: ['English', 'Mandarin'],
   },
   {
     id: '5',
@@ -123,31 +93,6 @@ export const DOCTORS: Doctor[] = [
       { date: '2026-03-28', slots: ['10:00 AM', '12:00 PM', '03:00 PM'] }
     ],
     education: ['DDS from University of Pennsylvania'],
-    languages: ['English']
-  }
-];
-
-export const USER_BOOKINGS: Appointment[] = [
-  {
-    id: 'b1',
-    doctorId: '2',
-    doctorName: 'Dr. James Wilson',
-    doctorSpecialty: 'General Physician',
-    date: '2026-03-20',
-    time: '10:00 AM',
-    status: 'completed',
-    patientName: 'John Doe',
-    type: 'Regular Checkup'
+    languages: ['English'],
   },
-  {
-    id: 'b2',
-    doctorId: '1',
-    doctorName: 'Dr. Sarah Mitchell',
-    doctorSpecialty: 'Dermatologist',
-    date: '2026-03-27',
-    time: '02:00 PM',
-    status: 'upcoming',
-    patientName: 'John Doe',
-    type: 'Skin Consultation'
-  }
 ];

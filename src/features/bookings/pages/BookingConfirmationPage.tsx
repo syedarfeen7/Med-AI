@@ -1,8 +1,10 @@
 import React from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { DOCTORS } from '../data/mockData';
 import { CheckCircle2, Calendar, Clock, MapPin, User, ArrowRight, Home } from 'lucide-react';
 import { motion } from 'motion/react';
+
+import { ROUTES } from '@/app/routes/paths';
+import { DOCTORS } from '@/features/doctors/data/doctors';
 
 export const BookingConfirmationPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -71,14 +73,14 @@ export const BookingConfirmationPage: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Link 
-            to="/dashboard"
+            to={ROUTES.userDashboard}
             className="flex items-center justify-center gap-2 py-4 bg-brand-600 text-white rounded-2xl font-black transition-all hover:bg-brand-700 shadow-lg shadow-brand-600/20"
           >
             View Bookings
             <ArrowRight className="w-4 h-4" />
           </Link>
           <Link 
-            to="/"
+            to={ROUTES.home}
             className="flex items-center justify-center gap-2 py-4 bg-slate-100 text-slate-700 rounded-2xl font-black transition-all hover:bg-slate-200"
           >
             <Home className="w-4 h-4" />

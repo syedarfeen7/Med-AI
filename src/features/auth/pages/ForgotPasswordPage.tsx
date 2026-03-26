@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Mail, Heart, ArrowLeft, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 
+import { ROUTES } from '@/app/routes/paths';
+
 export const ForgotPasswordPage: React.FC = () => {
   const [sent, setSent] = React.useState(false);
 
@@ -60,7 +62,7 @@ export const ForgotPasswordPage: React.FC = () => {
 
         <div className="mt-10 pt-8 border-t border-slate-50">
           <Link 
-            to="/login" 
+            to={ROUTES.login}
             className="flex items-center justify-center gap-2 text-sm font-bold text-slate-500 hover:text-brand-600 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />

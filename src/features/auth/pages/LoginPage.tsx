@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Mail, Lock, Heart, ArrowRight, Github, Chrome } from "lucide-react";
 import { motion } from "motion/react";
 
+import { ROUTES } from "@/app/routes/paths";
+
 export const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white flex">
@@ -14,7 +16,7 @@ export const LoginPage: React.FC = () => {
           className="max-w-md w-full"
         >
           <div className="mb-10">
-            <Link to="/" className="inline-flex items-center gap-2 mb-8 group">
+            <Link to={ROUTES.home} className="inline-flex items-center gap-2 mb-8 group">
               <div className="bg-brand-600 p-2 rounded-xl group-hover:rotate-12 transition-transform">
                 <Heart className="w-5 h-5 text-white fill-white" />
               </div>
@@ -51,7 +53,7 @@ export const LoginPage: React.FC = () => {
                   Password
                 </label>
                 <Link
-                  to="/forgot-password"
+                  to={ROUTES.forgotPassword}
                   title="Forgot Password"
                   className="text-xs font-bold text-brand-600 hover:underline"
                 >
@@ -97,7 +99,7 @@ export const LoginPage: React.FC = () => {
           <p className="mt-10 text-center text-sm text-slate-500">
             Don't have an account?{" "}
             <Link
-              to="/signup"
+              to={ROUTES.signup}
               className="text-brand-600 font-bold hover:underline"
             >
               Create one

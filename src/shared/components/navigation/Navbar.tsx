@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, Calendar, User, Search, Menu, X, Bell } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { Heart, Calendar, Search, Menu, X, Bell } from 'lucide-react';
+
+import { ROUTES } from '@/app/routes/paths';
+import { cn } from '@/shared/lib/utils';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const location = useLocation();
 
   const navLinks = [
-    { name: 'Find Doctors', path: '/search', icon: Search },
-    { name: 'My Bookings', path: '/dashboard', icon: Calendar },
+    { name: 'Find Doctors', path: ROUTES.search, icon: Search },
+    { name: 'My Bookings', path: ROUTES.userDashboard, icon: Calendar },
   ];
 
   return (
@@ -17,7 +19,7 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2 group">
+            <Link to={ROUTES.home} className="flex items-center gap-2 group">
               <div className="bg-brand-600 p-2 rounded-xl group-hover:rotate-12 transition-transform">
                 <Heart className="w-6 h-6 text-white fill-white" />
               </div>
@@ -49,13 +51,13 @@ export const Navbar: React.FC = () => {
                 <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
               </button>
               <Link 
-                to="/login"
+                to={ROUTES.login}
                 className="text-sm font-bold text-slate-700 hover:text-brand-600 transition-colors"
               >
                 Sign In
               </Link>
               <Link 
-                to="/signup"
+                to={ROUTES.signup}
                 className="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-600/20 active:scale-95"
               >
                 Join Now
@@ -92,14 +94,14 @@ export const Navbar: React.FC = () => {
             ))}
             <div className="pt-4 flex flex-col gap-3">
               <Link 
-                to="/login"
+                to={ROUTES.login}
                 onClick={() => setIsOpen(false)}
                 className="w-full py-4 text-center font-bold text-slate-700 bg-slate-50 rounded-xl"
               >
                 Sign In
               </Link>
               <Link 
-                to="/signup"
+                to={ROUTES.signup}
                 onClick={() => setIsOpen(false)}
                 className="w-full py-4 text-center font-bold text-white bg-brand-600 rounded-xl"
               >

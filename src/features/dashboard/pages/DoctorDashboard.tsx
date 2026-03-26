@@ -5,7 +5,8 @@ import {
   Camera, Award, BookOpen, Globe
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { cn } from '../lib/utils';
+
+import { cn } from '@/shared/lib/utils';
 
 export const DoctorDashboard: React.FC = () => {
   return (

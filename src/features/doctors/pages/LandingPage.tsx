@@ -1,5 +1,4 @@
 import React from "react";
-import { AISearchBar } from "../components/AISearchBar";
 import { motion } from "motion/react";
 import {
   Shield,
@@ -11,7 +10,10 @@ import {
   Heart,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { cn } from "../lib/utils";
+
+import { ROUTES } from "@/app/routes/paths";
+import { AISearchBar } from "@/features/doctors/components/AISearchBar";
+import { cn } from "@/shared/lib/utils";
 
 export const LandingPage: React.FC = () => {
   return (
@@ -272,13 +274,13 @@ export const LandingPage: React.FC = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
               <Link
-                to="/signup"
+                to={ROUTES.signup}
                 className="bg-white text-brand-600 px-10 py-4 rounded-2xl font-black text-lg hover:bg-brand-50 transition-all shadow-xl shadow-black/10"
               >
                 Get Started Free
               </Link>
               <Link
-                to="/search"
+                to={ROUTES.search}
                 className="bg-brand-500 text-white border border-brand-400 px-10 py-4 rounded-2xl font-black text-lg hover:bg-brand-400 transition-all"
               >
                 Find a Doctor
@@ -293,7 +295,7 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-2">
-              <Link to="/" className="flex items-center gap-2 mb-6">
+              <Link to={ROUTES.home} className="flex items-center gap-2 mb-6">
                 <div className="bg-brand-600 p-2 rounded-xl">
                   <Heart className="w-6 h-6 text-white fill-white" />
                 </div>
@@ -311,7 +313,7 @@ export const LandingPage: React.FC = () => {
               <ul className="space-y-4">
                 <li>
                   <Link
-                    to="/search"
+                    to={ROUTES.search}
                     className="hover:text-brand-400 transition-colors"
                   >
                     Find Doctors
@@ -319,7 +321,7 @@ export const LandingPage: React.FC = () => {
                 </li>
                 <li>
                   <Link
-                    to="/dashboard"
+                    to={ROUTES.userDashboard}
                     className="hover:text-brand-400 transition-colors"
                   >
                     My Bookings
@@ -327,7 +329,7 @@ export const LandingPage: React.FC = () => {
                 </li>
                 <li>
                   <Link
-                    to="/signup"
+                    to={ROUTES.signup}
                     className="hover:text-brand-400 transition-colors"
                   >
                     Join as Doctor

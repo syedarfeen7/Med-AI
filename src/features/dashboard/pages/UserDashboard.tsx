@@ -1,12 +1,13 @@
 import React from 'react';
-import { USER_BOOKINGS } from '../data/mockData';
 import { 
-  Calendar, Clock, MapPin, User, ChevronRight, 
-  Settings, LogOut, Bell, Search, Filter, Plus
+  Calendar, Clock, User, ChevronRight, 
+  Settings, LogOut, Bell, Plus
 } from 'lucide-react';
-import { motion } from 'motion/react';
-import { cn } from '../lib/utils';
 import { Link } from 'react-router-dom';
+
+import { ROUTES } from '@/app/routes/paths';
+import { USER_BOOKINGS } from '@/features/bookings/data/bookings';
+import { cn } from '@/shared/lib/utils';
 
 export const UserDashboard: React.FC = () => {
   return (
@@ -19,7 +20,7 @@ export const UserDashboard: React.FC = () => {
           </div>
           <div className="flex gap-4">
             <Link 
-              to="/search"
+              to={ROUTES.search}
               className="flex items-center gap-2 bg-brand-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-brand-600/20 hover:bg-brand-700 transition-all"
             >
               <Plus className="w-5 h-5" />

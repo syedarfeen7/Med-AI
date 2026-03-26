@@ -1,4 +1,5 @@
-import { DOCTORS, type Doctor } from '../data/mockData';
+import { DOCTORS } from '@/features/doctors/data/doctors';
+import { type Doctor } from '@/features/doctors/types/doctor';
 
 export async function processAISearch(query: string): Promise<Doctor[]> {
   // Simulate network delay

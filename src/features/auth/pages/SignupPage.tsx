@@ -2,7 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, Lock, Heart, ArrowRight, User, ShieldCheck } from "lucide-react";
 import { motion } from "motion/react";
-import { cn } from "../lib/utils";
+
+import { ROUTES } from "@/app/routes/paths";
+import { cn } from "@/shared/lib/utils";
 
 export const SignupPage: React.FC = () => {
   const [role, setRole] = React.useState<"patient" | "doctor">("patient");
@@ -63,7 +65,7 @@ export const SignupPage: React.FC = () => {
           className="max-w-lg w-full"
         >
           <div className="mb-10">
-            <Link to="/" className="inline-flex items-center gap-2 mb-8 group">
+            <Link to={ROUTES.home} className="inline-flex items-center gap-2 mb-8 group">
               <div className="bg-brand-600 p-2 rounded-xl group-hover:rotate-12 transition-transform">
                 <Heart className="w-5 h-5 text-white fill-white" />
               </div>
@@ -194,7 +196,7 @@ export const SignupPage: React.FC = () => {
           <p className="mt-10 text-center text-sm text-slate-500">
             Already have an account?{" "}
             <Link
-              to="/login"
+              to={ROUTES.login}
               className="text-brand-600 font-bold hover:underline"
             >
               Sign in

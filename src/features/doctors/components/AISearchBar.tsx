@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Search, Sparkles, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
+
+import { ROUTES } from '@/app/routes/paths';
+import { cn } from '@/shared/lib/utils';
 
 interface AISearchBarProps {
   className?: string;
@@ -24,7 +26,7 @@ export const AISearchBar: React.FC<AISearchBarProps> = ({ className, initialValu
   const handleSearch = (e?: React.FormEvent) => {
     e?.preventDefault();
     if (query.trim()) {
-      navigate(`/search?q=${encodeURIComponent(query)}`);
+      navigate(`${ROUTES.search}?q=${encodeURIComponent(query)}`);
     }
   };
 
@@ -71,7 +73,7 @@ export const AISearchBar: React.FC<AISearchBarProps> = ({ className, initialValu
             key={idx}
             onClick={() => {
               setQuery(example);
-              navigate(`/search?q=${encodeURIComponent(example)}`);
+              navigate(`${ROUTES.search}?q=${encodeURIComponent(example)}`);
             }}
             className="text-xs bg-white border border-slate-200 hover:border-brand-300 hover:text-brand-600 px-3 py-1.5 rounded-full transition-all text-slate-600 shadow-sm"
           >

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import { AISearchBar } from '../components/AISearchBar';
-import { DoctorCard } from '../components/DoctorCard';
-import { processAISearch } from '../services/aiSearchService';
-import { type Doctor } from '../data/mockData';
+import { useSearchParams } from 'react-router-dom';
 import { Filter, SlidersHorizontal, Search, Loader2, Calendar, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+
+import { AISearchBar } from '@/features/doctors/components/AISearchBar';
+import { DoctorCard } from '@/features/doctors/components/DoctorCard';
+import { DOCTORS } from '@/features/doctors/data/doctors';
+import { processAISearch } from '@/features/doctors/services/aiSearchService';
+import { type Doctor } from '@/features/doctors/types/doctor';
 
 export const SearchResultsPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -56,7 +58,7 @@ export const SearchResultsPage: React.FC = () => {
                 <div className="space-y-6">
                   <div className="space-y-3">
                     <p className="text-xs font-black uppercase tracking-widest text-slate-400">Specialty</p>
-                    {['Dermatologist', 'General Physician', 'Pediatrician', 'Cardiologist', 'Dentist'].map(s => (
+                    {Array.from(new Set(DOCTORS.map((doctor) => doctor.specialty))).map(s => (
                       <label key={s} className="flex items-center gap-2 cursor-pointer group">
                         <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
                         <span className="text-sm text-slate-600 group-hover:text-slate-900 transition-colors">{s}</span>

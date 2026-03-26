@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { DOCTORS } from '../data/mockData';
 import { 
   Star, MapPin, Clock, ShieldCheck, Award, Languages, 
   Calendar, ChevronRight, ArrowLeft, Heart, Share2, Info
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { cn } from '../lib/utils';
+
+import { ROUTES } from '@/app/routes/paths';
+import { DOCTORS } from '@/features/doctors/data/doctors';
+import { cn } from '@/shared/lib/utils';
 
 export const DoctorProfilePage: React.FC = () => {
   const { id } = useParams();
@@ -21,7 +23,7 @@ export const DoctorProfilePage: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4">Doctor not found</h2>
-          <button onClick={() => navigate('/search')} className="text-brand-600 font-bold">Back to Search</button>
+          <button onClick={() => navigate(ROUTES.search)} className="text-brand-600 font-bold">Back to Search</button>
         </div>
       </div>
     );
@@ -31,7 +33,9 @@ export const DoctorProfilePage: React.FC = () => {
 
   const handleBook = () => {
     if (selectedDate && selectedSlot) {
-      navigate(`/booking-confirmation?doctorId=${doctor.id}&date=${selectedDate}&slot=${selectedSlot}`);
+      navigate(
+        `${ROUTES.bookingConfirmation}?doctorId=${doctor.id}&date=${selectedDate}&slot=${selectedSlot}`,
+      );
     }
   };
 

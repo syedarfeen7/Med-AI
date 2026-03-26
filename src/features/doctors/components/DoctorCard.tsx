@@ -1,8 +1,10 @@
 import React from 'react';
 import { Star, MapPin, Clock, ArrowRight, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { type Doctor } from '../data/mockData';
 import { motion } from 'motion/react';
+
+import { getDoctorProfilePath } from '@/app/routes/paths';
+import { type Doctor } from '@/features/doctors/types/doctor';
 
 interface DoctorCardProps {
   doctor: Doctor;
@@ -77,7 +79,7 @@ export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
           </div>
 
           <Link 
-            to={`/doctor/${doctor.id}`}
+            to={getDoctorProfilePath(doctor.id)}
             className="flex items-center justify-center gap-2 w-full py-3 bg-slate-50 hover:bg-brand-600 hover:text-white text-slate-700 font-bold rounded-xl transition-all group/btn"
           >
             View Profile
