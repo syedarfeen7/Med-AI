@@ -79,12 +79,15 @@ export const SignupPage: React.FC = () => {
 
       setSuccessMessage(
         response.message ??
-          "Account created successfully. Redirecting to sign in...",
+          "Account created successfully. Redirecting to verification...",
       );
+      const submittedEmail = form.email.trim();
       setForm(INITIAL_FORM_STATE);
 
       window.setTimeout(() => {
-        navigate(ROUTES.login);
+        navigate(
+          `${ROUTES.accountVerification}?email=${encodeURIComponent(submittedEmail)}`,
+        );
       }, 1200);
     } catch (submissionError) {
       setError(
@@ -96,8 +99,6 @@ export const SignupPage: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-  console.log(">>> base",import.meta.env.VITE_API_BASE_URL);
-
   return (
     <div className="min-h-screen bg-white flex">
       {/* Left Column: Image */}

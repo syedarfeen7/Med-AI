@@ -4,6 +4,7 @@ export const ROUTES = {
   bookingConfirmation: '/booking-confirmation',
   login: '/login',
   signup: '/signup',
+  accountVerification: '/account-verification',
   forgotPassword: '/forgot-password',
   userDashboard: '/dashboard',
   doctorDashboard: '/doctor-dashboard',

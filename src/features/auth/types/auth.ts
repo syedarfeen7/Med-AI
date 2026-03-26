@@ -17,3 +17,12 @@ export interface RegisterResponse {
   };
   token?: string;
 }
+
+export interface VerifyEmailPayload {
+  token: string;
+}
+
+export interface VerifyEmailResponse {
+  message?: string;
+  success?: boolean;
+}
