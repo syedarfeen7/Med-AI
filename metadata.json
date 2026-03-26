@@ -1,0 +1,7 @@
+{
+  "name": "AuraHealth AI",
+  "description": "AI-powered medical appointment booking platform for seamless healthcare access.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
