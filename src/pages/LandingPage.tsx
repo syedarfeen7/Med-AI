@@ -205,7 +205,7 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-              Why choose AuraHealth?
+              Why choose MedAI?
             </h2>
             <p className="text-slate-600 max-w-xl mx-auto">
               Experience a smarter way to manage your health with our
@@ -267,7 +267,7 @@ export const LandingPage: React.FC = () => {
             </h2>
             <p className="text-brand-100 text-lg mb-10 max-w-xl mx-auto relative z-10">
               Join thousands of patients who have simplified their healthcare
-              journey with AuraHealth.
+              journey with MedAI.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
@@ -298,7 +298,7 @@ export const LandingPage: React.FC = () => {
                   <Heart className="w-6 h-6 text-white fill-white" />
                 </div>
                 <span className="text-2xl font-black tracking-tight text-white">
-                  AuraHealth
+                  MedAI
                 </span>
               </Link>
               <p className="max-w-sm leading-relaxed">
@@ -366,7 +366,7 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
           <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-            <p>© 2026 AuraHealth AI. All rights reserved.</p>
+            <p>© 2026 MedAI. All rights reserved.</p>
             <div className="flex gap-6">
               <a href="#" className="hover:text-white transition-colors">
                 Twitter

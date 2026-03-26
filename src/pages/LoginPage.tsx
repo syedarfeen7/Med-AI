@@ -19,7 +19,7 @@ export const LoginPage: React.FC = () => {
                 <Heart className="w-5 h-5 text-white fill-white" />
               </div>
               <span className="text-xl font-black tracking-tight text-slate-900">
-                AuraHealth
+                MedAI
               </span>
             </Link>
             <h1 className="text-4xl font-black text-slate-900 mb-2">
@@ -130,7 +130,7 @@ export const LoginPage: React.FC = () => {
               </span>
             </h2>
             <p className="text-brand-100/80 text-lg leading-relaxed font-medium">
-              "The greatest wealth is health. AuraHealth makes it easier than
+              "The greatest wealth is health. MedAI makes it easier than
               ever to prioritize yours."
             </p>
             <div className="mt-8 flex items-center gap-4">

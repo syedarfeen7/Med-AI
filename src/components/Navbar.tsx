@@ -21,7 +21,7 @@ export const Navbar: React.FC = () => {
               <div className="bg-brand-600 p-2 rounded-xl group-hover:rotate-12 transition-transform">
                 <Heart className="w-6 h-6 text-white fill-white" />
               </div>
-              <span className="text-2xl font-black tracking-tight text-slate-900">Aura<span className="text-brand-600">Health</span></span>
+              <span className="text-2xl font-black tracking-tight text-slate-900">Med<span className="text-brand-600">AI</span></span>
             </Link>
           </div>
 
