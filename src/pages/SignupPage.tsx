@@ -72,7 +72,7 @@ export const SignupPage: React.FC = () => {
               </span>
             </Link>
             <h1 className="text-4xl font-black text-slate-900 mb-2">
-              Join AuraHealth
+              Join MedAI
             </h1>
             <p className="text-slate-500">
               Start your journey to better health today

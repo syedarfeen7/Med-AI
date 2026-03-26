@@ -109,13 +109,13 @@ export const LoginPage: React.FC = () => {
       {/* Right Column: Image */}
       <div className="hidden lg:block relative flex-1">
         <img
-          src="https://images.unsplash.com/photo-1505751172107-5739a00723a5?auto=format&fit=crop&q=80&w=1200&h=1600"
+          src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200&h=1600"
           alt="Modern healthcare"
           className="absolute inset-0 w-full h-full object-cover"
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-900/80 via-brand-900/20 to-transparent" />
-        <div className="absolute bottom-20 left-20 right-20 text-white">
+        <div className="absolute bottom-70 left-20 right-20 text-white">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
