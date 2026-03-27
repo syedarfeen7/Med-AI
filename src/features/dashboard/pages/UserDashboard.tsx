@@ -47,8 +47,8 @@ export const UserDashboard: React.FC = () => {
 
               <nav className="space-y-1">
                 {[
-                  { name: 'Dashboard', icon: User, active: true },
-                  { name: 'My Bookings', icon: Calendar },
+                  { name: 'Profile', icon: User, active: true },
+                  { name: 'Bookings', icon: Calendar },
                   { name: 'Notifications', icon: Bell },
                   { name: 'Settings', icon: Settings },
                 ].map(item => (

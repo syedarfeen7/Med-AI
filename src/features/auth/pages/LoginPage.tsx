@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Mail,
   Lock,
@@ -12,6 +12,7 @@ import {
 import { motion } from "motion/react";
 
 import { ROUTES } from "@/app/routes/paths";
+import { useAuth } from "@/features/auth/context/AuthContext";
 import { loginUser } from "@/features/auth/services/authService";
 import { cn } from "@/shared/lib/utils";
 
@@ -26,7 +27,9 @@ const INITIAL_FORM_STATE: LoginFormState = {
 };
 
 export const LoginPage: React.FC = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const { signIn } = useAuth();
   const [form, setForm] = React.useState(INITIAL_FORM_STATE);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -54,15 +57,33 @@ export const LoginPage: React.FC = () => {
         password: form.password,
       });
 
+      if (!response.user) {
+        throw new Error("Login succeeded but no user profile was returned.");
+      }
+
+      signIn(response.user);
+
       setSuccessMessage(
         response.message ?? "Signed in successfully. Redirecting...",
       );
       setForm(INITIAL_FORM_STATE);
 
+      const redirectTarget =
+        location.state &&
+        typeof location.state === "object" &&
+        "from" in location.state &&
+        location.state.from &&
+        typeof location.state.from === "object" &&
+        "pathname" in location.state.from &&
+        typeof location.state.from.pathname === "string"
+          ? location.state.from.pathname
+          : null;
+
       const destination =
-        response.user?.role === "doctor"
+        redirectTarget ??
+        (response.user.role === "doctor"
           ? ROUTES.doctorDashboard
-          : ROUTES.userDashboard;
+          : ROUTES.userDashboard);
 
       window.setTimeout(() => {
         navigate(destination);
