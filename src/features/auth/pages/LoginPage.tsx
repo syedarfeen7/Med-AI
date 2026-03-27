@@ -61,7 +61,13 @@ export const LoginPage: React.FC = () => {
         throw new Error("Login succeeded but no user profile was returned.");
       }
 
-      signIn(response.user);
+      const accessToken = response.accessToken ?? response.token;
+
+      if (!accessToken) {
+        throw new Error("Login succeeded but no access token was returned.");
+      }
+
+      signIn(response.user, accessToken);
 
       setSuccessMessage(
         response.message ?? "Signed in successfully. Redirecting...",

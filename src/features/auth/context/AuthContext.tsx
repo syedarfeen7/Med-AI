@@ -8,58 +8,93 @@ type AuthUser = {
   role: "patient" | "doctor";
 };
 
+type StoredAuthState = {
+  accessToken: string | null;
+  user: AuthUser | null;
+};
+
 type AuthContextValue = {
+  accessToken: string | null;
   isAuthenticated: boolean;
   isReady: boolean;
   user: AuthUser | null;
-  signIn: (user: AuthUser) => void;
+  signIn: (user: AuthUser, accessToken: string) => void;
   signOut: () => void;
 };
 
-const AUTH_STORAGE_KEY = "medai.auth.user";
+const AUTH_STORAGE_KEY = "medai.auth.state";
 
 const AuthContext = React.createContext<AuthContextValue | undefined>(undefined);
 
-function readStoredUser() {
+function readStoredAuthState(): StoredAuthState {
   if (typeof window === "undefined") {
-    return null;
+    return {
+      accessToken: null,
+      user: null,
+    };
   }
 
-  const storedUser = window.localStorage.getItem(AUTH_STORAGE_KEY);
+  const storedAuthState = window.localStorage.getItem(AUTH_STORAGE_KEY);
 
-  if (!storedUser) {
-    return null;
+  if (!storedAuthState) {
+    return {
+      accessToken: null,
+      user: null,
+    };
   }
 
   try {
-    return JSON.parse(storedUser) as AuthUser;
+    const parsedState = JSON.parse(storedAuthState) as Partial<StoredAuthState>;
+
+    return {
+      accessToken:
+        typeof parsedState.accessToken === "string"
+          ? parsedState.accessToken
+          : null,
+      user: parsedState.user ?? null,
+    };
   } catch {
     window.localStorage.removeItem(AUTH_STORAGE_KEY);
-    return null;
+    return {
+      accessToken: null,
+      user: null,
+    };
   }
 }
 
 export function AuthProvider({ children }: React.PropsWithChildren) {
   const [user, setUser] = React.useState<AuthUser | null>(null);
+  const [accessToken, setAccessToken] = React.useState<string | null>(null);
   const [isReady, setIsReady] = React.useState(false);
 
   React.useEffect(() => {
-    setUser(readStoredUser());
+    const storedAuthState = readStoredAuthState();
+    setUser(storedAuthState.user);
+    setAccessToken(storedAuthState.accessToken);
     setIsReady(true);
   }, []);
 
-  const signIn = React.useCallback((nextUser: AuthUser) => {
+  const signIn = React.useCallback((nextUser: AuthUser, nextAccessToken: string) => {
     setUser(nextUser);
-    window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(nextUser));
+    setAccessToken(nextAccessToken);
+    window.localStorage.setItem(
+      AUTH_STORAGE_KEY,
+      JSON.stringify({
+        accessToken: nextAccessToken,
+        user: nextUser,
+      } satisfies StoredAuthState),
+    );
   }, []);
 
   const signOut = React.useCallback(() => {
     setUser(null);
+    setAccessToken(null);
     window.localStorage.removeItem(AUTH_STORAGE_KEY);
   }, []);
 
   const value = {
-    isAuthenticated: Boolean(user),
+    accessToken,
+    isAuthenticated: Boolean(user && accessToken),
     isReady,
     user,
     signIn,

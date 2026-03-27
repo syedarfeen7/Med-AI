@@ -25,6 +25,8 @@ export interface RegisterResponse {
 
 export interface LoginResponse {
   message?: string;
+  accessToken?: string;
+  token?: string;
   user?: {
     id: string;
     firstName: string;
