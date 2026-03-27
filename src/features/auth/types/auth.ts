@@ -65,6 +65,7 @@ export interface ForgotPasswordResponse {
   success?: boolean;
 }
 
+
 export interface ResetPasswordResponse {
   message?: string;
   success?: boolean;
