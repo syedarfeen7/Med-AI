@@ -1,24 +1,75 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Heart, Calendar, Search, Menu, X, Bell } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Heart,
+  Calendar,
+  Search,
+  Menu,
+  X,
+  Bell,
+  Loader2,
+  LogOut,
+} from "lucide-react";
 
 import { ROUTES } from "@/app/routes/paths";
+import { logoutUser } from "@/features/auth/services/authService";
 import { cn } from "@/shared/lib/utils";
 import { useAuth } from "@/features/auth/context/AuthContext";
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
+  const [logoutError, setLogoutError] = React.useState("");
   const location = useLocation();
-  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const { isAuthenticated, signOut, user } = useAuth();
 
   const navLinks = [
     { name: "Find Doctors", path: ROUTES.search, icon: Search },
-    { name: "Dashboard", path: ROUTES.userDashboard, icon: Calendar },
+    ...(isAuthenticated
+      ? [
+          {
+            name: "Dashboard",
+            path:
+              user?.role === "doctor"
+                ? ROUTES.doctorDashboard
+                : ROUTES.userDashboard,
+            icon: Calendar,
+          },
+        ]
+      : []),
   ];
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    setLogoutError("");
+
+    try {
+      await logoutUser();
+      signOut();
+      setIsOpen(false);
+      navigate(ROUTES.login);
+    } catch (error) {
+      setLogoutError(
+        error instanceof Error
+          ? error.message
+          : "Unable to log out right now. Please try again.",
+      );
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 glass border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {logoutError && (
+          <div className="pt-3">
+            <div className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+              {logoutError}
+            </div>
+          </div>
+        )}
         <div className="flex justify-between h-20">
           <div className="flex items-center">
             <Link to={ROUTES.home} className="flex items-center gap-2 group">
@@ -52,11 +103,13 @@ export const Navbar: React.FC = () => {
             <div className="h-6 w-px bg-slate-200" />
 
             <div className="flex items-center gap-4">
-              <button className="p-2 text-slate-400 hover:text-brand-600 transition-colors relative">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
-              </button>
-              {!isAuthenticated && (
+              {isAuthenticated && (
+                <button className="p-2 text-slate-400 hover:text-brand-600 transition-colors relative">
+                  <Bell className="w-5 h-5" />
+                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
+                </button>
+              )}
+              {!isAuthenticated ? (
                 <>
                   <Link
                     to={ROUTES.login}
@@ -71,6 +124,19 @@ export const Navbar: React.FC = () => {
                     Join Now
                   </Link>
                 </>
+              ) : (
+                <button
+                  onClick={handleLogout}
+                  disabled={isLoggingOut}
+                  className="inline-flex items-center gap-2 text-sm font-bold text-slate-700 hover:text-brand-600 disabled:text-slate-400 transition-colors"
+                >
+                  {isLoggingOut ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <LogOut className="w-4 h-4" />
+                  )}
+                  Logout
+                </button>
               )}
             </div>
           </div>
@@ -106,7 +172,7 @@ export const Navbar: React.FC = () => {
                 {link.name}
               </Link>
             ))}
-            {isAuthenticated && (
+            {!isAuthenticated ? (
               <div className="pt-4 flex flex-col gap-3">
                 <Link
                   to={ROUTES.login}
@@ -122,6 +188,17 @@ export const Navbar: React.FC = () => {
                 >
                   Join Now
                 </Link>
+              </div>
+            ) : (
+              <div className="pt-4">
+                <button
+                  onClick={handleLogout}
+                  disabled={isLoggingOut}
+                  className="w-full py-4 inline-flex items-center justify-center gap-2 font-bold text-white bg-slate-900 rounded-xl disabled:bg-slate-400"
+                >
+                  {isLoggingOut && <Loader2 className="w-4 h-4 animate-spin" />}
+                  Logout
+                </button>
               </div>
             )}
           </div>

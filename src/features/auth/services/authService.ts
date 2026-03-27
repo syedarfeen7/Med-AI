@@ -3,6 +3,7 @@ import { apiRequest } from '@/shared/api/client';
 import type {
   LoginPayload,
   LoginResponse,
+  LogoutResponse,
   RegisterPayload,
   RegisterResponse,
   VerifyEmailPayload,
@@ -20,6 +21,12 @@ export function loginUser(payload: LoginPayload) {
   return apiRequest<LoginResponse>('/auth/login', {
     method: 'POST',
     body: payload,
+  });
+}
+
+export function logoutUser() {
+  return apiRequest<LogoutResponse>('/auth/logout', {
+    method: 'POST',
   });
 }
 

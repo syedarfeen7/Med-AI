@@ -34,6 +34,11 @@ export interface LoginResponse {
   };
 }
 
+export interface LogoutResponse {
+  message?: string;
+  success?: boolean;
+}
+
 export interface VerifyEmailPayload {
   token: string;
 }
