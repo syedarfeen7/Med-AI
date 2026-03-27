@@ -1,6 +1,8 @@
 import { apiRequest } from '@/shared/api/client';
 
 import type {
+  LoginPayload,
+  LoginResponse,
   RegisterPayload,
   RegisterResponse,
   VerifyEmailPayload,
@@ -9,6 +11,13 @@ import type {
 
 export function registerUser(payload: RegisterPayload) {
   return apiRequest<RegisterResponse>('/auth/signup', {
+    method: 'POST',
+    body: payload,
+  });
+}
+
+export function loginUser(payload: LoginPayload) {
+  return apiRequest<LoginResponse>('/auth/login', {
     method: 'POST',
     body: payload,
   });

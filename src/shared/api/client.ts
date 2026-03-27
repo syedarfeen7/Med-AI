@@ -31,6 +31,7 @@ function normalizePath(path: string) {
 const API_BASE_URL = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL);
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },

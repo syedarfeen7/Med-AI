@@ -1,11 +1,83 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Mail, Lock, Heart, ArrowRight, Github, Chrome } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Mail,
+  Lock,
+  Heart,
+  ArrowRight,
+  Github,
+  Chrome,
+  Loader2,
+} from "lucide-react";
 import { motion } from "motion/react";
 
 import { ROUTES } from "@/app/routes/paths";
+import { loginUser } from "@/features/auth/services/authService";
+import { cn } from "@/shared/lib/utils";
+
+type LoginFormState = {
+  email: string;
+  password: string;
+};
+
+const INITIAL_FORM_STATE: LoginFormState = {
+  email: "",
+  password: "",
+};
 
 export const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [form, setForm] = React.useState(INITIAL_FORM_STATE);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [successMessage, setSuccessMessage] = React.useState("");
+
+  const handleChange =
+    (field: keyof LoginFormState) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setForm((currentForm: any) => ({
+        ...currentForm,
+        [field]: event.target.value,
+      }));
+    };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError("");
+    setSuccessMessage("");
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await loginUser({
+        identifier: form.email.trim(),
+        password: form.password,
+      });
+
+      setSuccessMessage(
+        response.message ?? "Signed in successfully. Redirecting...",
+      );
+      setForm(INITIAL_FORM_STATE);
+
+      const destination =
+        response.user?.role === "doctor"
+          ? ROUTES.doctorDashboard
+          : ROUTES.userDashboard;
+
+      window.setTimeout(() => {
+        navigate(destination);
+      }, 800);
+    } catch (submissionError) {
+      setError(
+        submissionError instanceof Error
+          ? submissionError.message
+          : "Unable to sign you in right now.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white flex">
       {/* Left Column: Form */}
@@ -16,7 +88,10 @@ export const LoginPage: React.FC = () => {
           className="max-w-md w-full"
         >
           <div className="mb-10">
-            <Link to={ROUTES.home} className="inline-flex items-center gap-2 mb-8 group">
+            <Link
+              to={ROUTES.home}
+              className="inline-flex items-center gap-2 mb-8 group"
+            >
               <div className="bg-brand-600 p-2 rounded-xl group-hover:rotate-12 transition-transform">
                 <Heart className="w-5 h-5 text-white fill-white" />
               </div>
@@ -32,7 +107,7 @@ export const LoginPage: React.FC = () => {
             </p>
           </div>
 
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <label className="text-sm font-bold text-slate-700 ml-1">
                 Email Address
@@ -42,6 +117,10 @@ export const LoginPage: React.FC = () => {
                 <input
                   type="email"
                   placeholder="name@example.com"
+                  value={form.email}
+                  onChange={handleChange("email")}
+                  required
+                  disabled={isSubmitting}
                   className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-brand-400 focus:ring-4 focus:ring-brand-500/5 transition-all"
                 />
               </div>
@@ -65,14 +144,43 @@ export const LoginPage: React.FC = () => {
                 <input
                   type="password"
                   placeholder="••••••••"
+                  value={form.password}
+                  onChange={handleChange("password")}
+                  required
+                  disabled={isSubmitting}
                   className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-brand-400 focus:ring-4 focus:ring-brand-500/5 transition-all"
                 />
               </div>
             </div>
 
-            <button className="w-full py-4 bg-brand-600 hover:bg-brand-700 text-white rounded-2xl font-black text-lg transition-all shadow-xl shadow-brand-600/20 active:scale-95 flex items-center justify-center gap-2">
-              Sign In
-              <ArrowRight className="w-5 h-5" />
+            {(error || successMessage) && (
+              <div
+                className={cn(
+                  "rounded-2xl px-4 py-3 text-sm font-medium",
+                  error
+                    ? "bg-red-50 text-red-600 border border-red-100"
+                    : "bg-green-50 text-green-700 border border-green-100",
+                )}
+              >
+                {error || successMessage}
+              </div>
+            )}
+
+            <button
+              disabled={isSubmitting}
+              className="w-full py-4 bg-brand-600 hover:bg-brand-700 disabled:bg-brand-300 text-white rounded-2xl font-black text-lg transition-all shadow-xl shadow-brand-600/20 active:scale-95 flex items-center justify-center gap-2"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  Sign In
+                  <ArrowRight className="w-5 h-5" />
+                </>
+              )}
             </button>
           </form>
 
@@ -132,8 +240,8 @@ export const LoginPage: React.FC = () => {
               </span>
             </h2>
             <p className="text-brand-100/80 text-lg leading-relaxed font-medium">
-              "The greatest wealth is health. MedAI makes it easier than
-              ever to prioritize yours."
+              "The greatest wealth is health. MedAI makes it easier than ever to
+              prioritize yours."
             </p>
             <div className="mt-8 flex items-center gap-4">
               <div className="flex -space-x-3">
