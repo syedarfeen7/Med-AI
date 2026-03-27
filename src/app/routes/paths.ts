@@ -6,6 +6,7 @@ export const ROUTES = {
   signup: '/signup',
   accountVerification: '/account-verification',
   forgotPassword: '/forgot-password',
+  resetPassword: '/reset/password',
   userDashboard: '/dashboard',
   doctorDashboard: '/doctor-dashboard',
   doctorProfile: '/doctor/:id',

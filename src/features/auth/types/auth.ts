@@ -46,8 +46,26 @@ export interface RefreshTokenResponse {
 export interface VerifyEmailPayload {
   token: string;
 }
+export interface ForgotPasswordPayload {
+  email: string;
+}
+
+export interface ResetPasswordPayload {
+  password: string;
+  confirmPassword: string;
+}
 
 export interface VerifyEmailResponse {
+  message?: string;
+  success?: boolean;
+}
+
+export interface ForgotPasswordResponse {
+  message?: string;
+  success?: boolean;
+}
+
+export interface ResetPasswordResponse {
   message?: string;
   success?: boolean;
 }

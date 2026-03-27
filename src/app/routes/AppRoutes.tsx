@@ -8,6 +8,7 @@ import {
   LoginPage,
   SignupPage,
   ForgotPasswordPage,
+  ResetPasswordPage,
 } from "@/features/auth/pages";
 import { BookingConfirmationPage } from "@/features/bookings/pages/BookingConfirmationPage";
 import { DoctorDashboard, UserDashboard } from "@/features/dashboard/pages";
@@ -28,6 +29,7 @@ export function AppRoutes() {
         <Route path={ROUTES.login} element={<LoginPage />} />
         <Route path={ROUTES.signup} element={<SignupPage />} />
         <Route path={ROUTES.forgotPassword} element={<ForgotPasswordPage />} />
+        <Route path={ROUTES.resetPassword} element={<ResetPasswordPage />} />
         <Route
           path={ROUTES.accountVerification}
           element={<AccountVerificationPage />}
