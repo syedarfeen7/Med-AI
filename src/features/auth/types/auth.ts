@@ -1,3 +1,11 @@
+export interface AuthUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: 'patient' | 'doctor';
+}
+
 export interface RegisterPayload {
   firstName: string;
   lastName: string;
@@ -13,13 +21,7 @@ export interface LoginPayload {
 
 export interface RegisterResponse {
   message?: string;
-  user?: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    role: 'patient' | 'doctor';
-  };
+  user?: AuthUser;
   token?: string;
 }
 
@@ -27,18 +29,18 @@ export interface LoginResponse {
   message?: string;
   accessToken?: string;
   token?: string;
-  user?: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    role: 'patient' | 'doctor';
-  };
+  user?: AuthUser;
 }
 
 export interface LogoutResponse {
   message?: string;
   success?: boolean;
+}
+
+export interface RefreshTokenResponse {
+  message?: string;
+  accessToken?: string;
+  token?: string;
 }
 
 export interface VerifyEmailPayload {

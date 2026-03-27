@@ -1,17 +1,12 @@
 import React from "react";
 
-type AuthUser = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: "patient" | "doctor";
-};
-
-type StoredAuthState = {
-  accessToken: string | null;
-  user: AuthUser | null;
-};
+import {
+  AUTH_STATE_CHANGE_EVENT,
+  clearStoredAuthState,
+  readStoredAuthState,
+  setStoredAuthState,
+} from "@/features/auth/lib/authStorage";
+import type { AuthUser } from "@/features/auth/types/auth";
 
 type AuthContextValue = {
   accessToken: string | null;
@@ -22,45 +17,7 @@ type AuthContextValue = {
   signOut: () => void;
 };
 
-const AUTH_STORAGE_KEY = "medai.auth.state";
-
 const AuthContext = React.createContext<AuthContextValue | undefined>(undefined);
-
-function readStoredAuthState(): StoredAuthState {
-  if (typeof window === "undefined") {
-    return {
-      accessToken: null,
-      user: null,
-    };
-  }
-
-  const storedAuthState = window.localStorage.getItem(AUTH_STORAGE_KEY);
-
-  if (!storedAuthState) {
-    return {
-      accessToken: null,
-      user: null,
-    };
-  }
-
-  try {
-    const parsedState = JSON.parse(storedAuthState) as Partial<StoredAuthState>;
-
-    return {
-      accessToken:
-        typeof parsedState.accessToken === "string"
-          ? parsedState.accessToken
-          : null,
-      user: parsedState.user ?? null,
-    };
-  } catch {
-    window.localStorage.removeItem(AUTH_STORAGE_KEY);
-    return {
-      accessToken: null,
-      user: null,
-    };
-  }
-}
 
 export function AuthProvider({ children }: React.PropsWithChildren) {
   const [user, setUser] = React.useState<AuthUser | null>(null);
@@ -68,28 +25,34 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
   const [isReady, setIsReady] = React.useState(false);
 
   React.useEffect(() => {
-    const storedAuthState = readStoredAuthState();
-    setUser(storedAuthState.user);
-    setAccessToken(storedAuthState.accessToken);
-    setIsReady(true);
+    const syncAuthState = () => {
+      const storedAuthState = readStoredAuthState();
+      setUser(storedAuthState.user);
+      setAccessToken(storedAuthState.accessToken);
+      setIsReady(true);
+    };
+
+    syncAuthState();
+
+    window.addEventListener(AUTH_STATE_CHANGE_EVENT, syncAuthState);
+
+    return () => {
+      window.removeEventListener(AUTH_STATE_CHANGE_EVENT, syncAuthState);
+    };
   }, []);
 
-  const signIn = React.useCallback((nextUser: AuthUser, nextAccessToken: string) => {
-    setUser(nextUser);
-    setAccessToken(nextAccessToken);
-    window.localStorage.setItem(
-      AUTH_STORAGE_KEY,
-      JSON.stringify({
+  const signIn = React.useCallback(
+    (nextUser: AuthUser, nextAccessToken: string) => {
+      setStoredAuthState({
         accessToken: nextAccessToken,
         user: nextUser,
-      } satisfies StoredAuthState),
-    );
-  }, []);
+      });
+    },
+    [],
+  );
 
   const signOut = React.useCallback(() => {
-    setUser(null);
-    setAccessToken(null);
-    window.localStorage.removeItem(AUTH_STORAGE_KEY);
+    clearStoredAuthState();
   }, []);
 
   const value = {
